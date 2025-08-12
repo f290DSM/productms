@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: producms
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:product-db
+    driver-class-name: org.h2.Driver
+    username: aluno
+    password: fatec
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  flyway:
+    url: jdbc:h2:mem:product-db
+    user: aluno
+    password: fatec
+server:
+  port: 8000
