@@ -80,7 +80,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 }
 ```
 
-8. Baixe o arquivo `` em [gist](https://gist.github.com/BZR4/ee307cdae9219244929726080d98669c) e coloque-o no diretório `src/main/resources/db/migration`.
+8. Baixe o arquivo `V1__CreateTableProducts.sql` em [gist](https://gist.github.com/BZR4/ee307cdae9219244929726080d98669c) e coloque-o no diretório `src/main/resources/db/migration`.
 
 9. Execute o projeto, acesse o h2-console e verifique se as tabelas foram criadas corretamente.
 
