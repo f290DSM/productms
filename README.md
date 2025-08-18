@@ -86,6 +86,47 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 10. Acesse o H2 e faça uma consulta visualizar os produtos criados.
 
+11. Crie o pacote resources e adicione ProductResource.java.
+
+```java
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/products")
+public class ProductResource {
+
+    private final ProductRepository repository;
+
+    public ProductResource(ProductRepository repository) {
+        this.repository = repository;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductEntity>> findAll() {
+        final List<ProductEntity> products = repository.findAll();
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/{id}")
+    public ProductEntity getMethodName(@PathVariable("id") Long id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+}
+```
+
+12. Faça uma requisição para `http://localhost:8000/products` e verifique se os produtos foram retornados corretamente.
+
+13. Faça uma requisição para `http://localhost:8000/products/1` e verifique se o produto foi retornado corretamente.
+
+
+11. Acesse o H2 e faça uma consulta visualizar os produtos criados.
+
 
 
 
