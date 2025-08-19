@@ -1,0 +1,34 @@
+package br.gov.sp.cps.fatecararas.productms.domain.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CurrenciesDTO {
+    @JsonProperty("results")
+    private ResultDTO result;
+}
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+class CurrenciesDataDTO {
+    @JsonProperty("USD")
+    private CurrencyDTO dollar;
+    @JsonProperty("EUR")
+    private CurrencyDTO euro;
+}
+
+@Data
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+class ResultDTO {
+    @JsonProperty("currencies")
+    private CurrenciesDataDTO data;
+}
+

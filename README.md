@@ -229,7 +229,7 @@ public class UpdateCurrencyService {
         this.client = client;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 600000)
     public void update() {
         System.out.println("Updating currency");
         String response = client.get()

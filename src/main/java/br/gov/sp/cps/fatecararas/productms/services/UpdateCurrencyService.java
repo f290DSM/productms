@@ -4,6 +4,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.gov.sp.cps.fatecararas.productms.domain.dto.CurrenciesDTO;
+
 @Service
 public class UpdateCurrencyService {
 
@@ -13,13 +18,15 @@ public class UpdateCurrencyService {
         this.client = client;
     }
 
-    @Scheduled(fixedRate = 5000)
-    public void update() {
+    @Scheduled(fixedRate = 500000)
+    public void update() throws JsonProcessingException {
         System.out.println("Updating currency");
-        String response = client.get()
+        CurrenciesDTO response = client.get()
                 .uri("https://api.hgbrasil.com/finance")
-                .retrieve().body(String.class);
+                .retrieve().body(CurrenciesDTO.class);
+        
         System.out.println(response);
+        System.out.println(new ObjectMapper().writeValueAsString(response));
     }
 
 }

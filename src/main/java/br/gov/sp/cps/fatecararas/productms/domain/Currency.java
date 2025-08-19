@@ -31,3 +31,5 @@ public abstract class Currency {
     @Column(name = "date", columnDefinition = "TIMESTAMP")
     private LocalDateTime date;
 }
+
+//TODO: Criar um conjunto de classes DTOs para converter os dados da API para o formato do banco de dados
