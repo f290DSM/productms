@@ -197,8 +197,66 @@ spring:
   flyway:
     enabled: false
 ```
-  
 
+4. Crie o pacote config e adicione AppConfig.java.
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestClient restClient() {
+        return RestClient.builder().build();
+    }
+}
+```
+
+5. Crie o pacote services e adicione UpdateCurrencyService.java.
+```java
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+@Service
+public class UpdateCurrencyService {
+
+    private final RestClient client;
+
+    public UpdateCurrencyService(RestClient client) {
+        this.client = client;
+    }
+
+    @Scheduled(fixedRate = 5000)
+    public void update() {
+        System.out.println("Updating currency");
+        String response = client.get()
+                .uri("https://api.hgbrasil.com/finance")
+                .retrieve().body(String.class);
+        System.out.println(response);
+    }
+
+}
+```
+
+6. Habilitar o agendamento de tarefas na classe ProductmsApplication.java.
+```java
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@EnableScheduling
+@SpringBootApplication
+public class ProductmsApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ProductmsApplication.class, args);
+    }
+
+}
+```
+
+7. Teste o Scheduler verficando o log do console. 
 
 
 
