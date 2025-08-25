@@ -169,7 +169,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 @JsonTypeName("EUR")
-public class Euro extends Currency {
+public class EuroEntity extends Currency {
     
 }
 ```
@@ -181,7 +181,7 @@ import jakarta.persistence.Entity;
 
 @Entity
 @JsonTypeName("USD")
-public class Dollar extends Currency {
+public class DollarEntity extends Currency {
     
 }
 ```
@@ -537,9 +537,44 @@ CREATE TABLE Euro (
 
 23. Execute o projeto e verifique se as cotações de moedas foram atualizadas corretamente fazendo select no banco de dados.
 
+> Com os as cotaçoes de moedas atualizadas, vamos converter o preço do produto para a moeda desejada, inicialmente o Dollar.
 
+24. Crie um metodo para buscar a cotação de moeda mais recente.
 
+```java
+@Repository
+public interface DollarRepository extends JpaRepository<DollarEntity, Long> {
+    DollarEntity findFirstByOrderByDateDesc();
+}
+```
 
+25. Atualize o arquivo ProductService.java para que ele converta o preço do produto para a moeda desejada.
 
+```java
+public ProductDTO findById(Long id) {
+    final ProductEntity product = repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
 
+    final DollarEntity dollar = dollarRepository.findFirstByOrderByDateDesc();
+
+    if (dollar == null) {
+        throw new RuntimeException("Dollar not found");
+    }
+
+    product.setPrice(product.getPrice() * dollar.getSell());
+
+    return modelMapper.map(product, ProductDTO.class);
+}
+```
+
+26. Atualize o arquivo ProductResource.java para que ele converta o preço do produto para a moeda desejada.
+
+```java
+@GetMapping("/{id}")
+public ProductDTO findById(@PathVariable("id") Long id) {
+    return productService.findById(id);
+}
+```
+
+27. Faça uma requisição para `http://localhost:8000/products/1` e verifique se o produto foi retornado corretamente.
 
