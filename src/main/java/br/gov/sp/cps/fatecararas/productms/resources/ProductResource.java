@@ -1,34 +1,37 @@
 package br.gov.sp.cps.fatecararas.productms.resources;
 
-import br.gov.sp.cps.fatecararas.productms.domain.ProductEntity;
-import br.gov.sp.cps.fatecararas.productms.repositories.ProductRepository;
-import org.springframework.http.ResponseEntity;
+import br.gov.sp.cps.fatecararas.productms.domain.dto.ProductDTO;
+import br.gov.sp.cps.fatecararas.productms.services.ProductService;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 public class ProductResource {
 
-    private final ProductRepository repository;
+    private final ProductService productService;
 
-    public ProductResource(ProductRepository repository) {
-        this.repository = repository;
+    public ProductResource(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductEntity>> findAll() {
-        final List<ProductEntity> products = repository.findAll();
-        return ResponseEntity.ok(products);
+    public Page<ProductDTO> findAll(Pageable pageable) {
+        return productService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public ProductEntity findById(@PathVariable("id") Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+    public ProductDTO findById(@PathVariable("id") Long id) {
+        return productService.findById(id);
+    }
+
+    @GetMapping("/description/{description}")
+    public Page<ProductDTO> findByDescriptionContaining(@PathVariable("description") String description, Pageable pageable) {
+        return productService.findByDescriptionContaining(description, pageable);
     }
 }

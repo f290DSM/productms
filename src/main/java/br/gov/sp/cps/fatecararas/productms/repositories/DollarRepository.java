@@ -1,9 +1,11 @@
 package br.gov.sp.cps.fatecararas.productms.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import br.gov.sp.cps.fatecararas.productms.domain.Dollar;
+import br.gov.sp.cps.fatecararas.productms.domain.DollarEntity;
 
-public interface DollarRepository extends JpaRepository<Dollar, Long> {
-    
+@Repository
+public interface DollarRepository extends JpaRepository<DollarEntity, Long> {
+    DollarEntity findFirstByOrderByDateDesc();
 }

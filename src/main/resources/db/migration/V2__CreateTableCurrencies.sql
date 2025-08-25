@@ -1,5 +1,7 @@
+CREATE SEQUENCE currency_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE Dollar (
-  id serial,
+  id BIGINT DEFAULT NEXT VALUE FOR currency_seq PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   buy DECIMAL(19, 4) NOT NULL,
   sell DECIMAL(19, 4) NOT NULL,
@@ -8,7 +10,7 @@ CREATE TABLE Dollar (
 );
 
 CREATE TABLE Euro (
-  id serial,
+  id BIGINT DEFAULT NEXT VALUE FOR currency_seq PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   buy DECIMAL(19, 4) NOT NULL,
   sell DECIMAL(19, 4) NOT NULL,

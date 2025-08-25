@@ -1,9 +1,11 @@
 package br.gov.sp.cps.fatecararas.productms.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import br.gov.sp.cps.fatecararas.productms.domain.Euro;
+import br.gov.sp.cps.fatecararas.productms.domain.EuroEntity;
 
-public interface EuroRepository extends JpaRepository<Euro, Long> {
-    
+@Repository
+public interface EuroRepository extends JpaRepository<EuroEntity, Long> {
+
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.SequenceGenerator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,8 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Currency {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency_seq")
+    @SequenceGenerator(name = "currency_seq", sequenceName = "currency_seq", allocationSize = 1)
     private Long id;
     private String name;
     private Double buy;
@@ -31,5 +33,3 @@ public abstract class Currency {
     @Column(name = "date", columnDefinition = "TIMESTAMP")
     private LocalDateTime date;
 }
-
-//TODO: Criar um conjunto de classes DTOs para converter os dados da API para o formato do banco de dados
